@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Car Plate Detection</title>
+  <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    #inside_body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 90vh;
+        margin: 0;
+        background-color: #f8f9fa;
+    }
+
+    #uploaded_video {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .centered {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Car Plate Detection</a>
+        <button
+          class="btn btn-outline-secondary my-2 my-sm-0"
+          type="submit"
+          onClick="location.href='/'"
+        >
+          Home
+        </button>
+      </div>
+    </nav>
+  </header>
+  <div id="inside_body">
+    <div id="uploaded_video" class="container mt-5">
+        <section>
+          <h1><b>업로드 영상</b></h1>
+          <br/>
+          <video width="70%" controls>
+            <source src="{{ url_for('send_uploaded_file', filename=filename) }}" type="{{ video_type }}"> 
+            "video 태그를 지원하지 않는 브라우저입니다."
+          </video>
+        </section>
+    </div>
+  </div>
+</body>
+
+</html>

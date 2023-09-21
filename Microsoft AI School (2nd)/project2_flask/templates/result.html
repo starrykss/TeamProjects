@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Clothing Fitting Service</title>
+  <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    #inside_body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 90vh;
+        margin: 0;
+        background-color: #f8f9fa;
+    }
+
+    .custom-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .custom-table th, .custom-table td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: center;
+        }
+
+        .custom-table th {
+          background-color: #f2f2f2;
+        }
+
+        .custom-table img {
+          max-width: 100%;
+        }
+
+    .centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #sample_img_1:hover,
+    #sample_img_2:hover,
+    #sample_img_3:hover,
+    #sample_img_4:hover,
+    #loadDisplayImagesButton:hover {
+      cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Clothing Fitting Service</a>
+        <button
+          class="btn btn-outline-secondary my-2 my-sm-0"
+          type="submit"
+          onClick="location.href='/'"
+        >
+          Home
+        </button>
+      </div>
+    </nav>
+  </header>
+  <div id="inside_body">
+    <div id="uploaded_video" class="container mt-5">
+      <section>
+        <div id="inside_body">
+          <h1><b>AI 의류 피팅 서비스</b></h1>
+          <br/>
+          <table class="custom-table">
+            <thead>
+                <tr>
+                    <th style="width: 50%;"><b>업로드 이미지</b></th>
+                    <th style="width: 50%;" colspan="2"><b>의류 샘플</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 25%;" rowspan="2">
+                      <img id="main_img" src="{{ url_for('send_uploaded_file', filename=filename) }}"/>
+                      <img id="display_img_1" src="" style="display: none;"/>
+                      <img id="display_img_2" src="" style="display: none;"/>
+                      <img id="display_img_3" src="" style="display: none;"/>
+                      <img id="display_img_4" src="" style="display: none;"/>
+                    </td>
+                    <td style="width: 25%;"><img id="sample_img_1" onclick="show_target_images('0');" src=""></td>
+                    <td style="width: 25%;"><img id="sample_img_2" onclick="show_target_images('1');" src=""></td>
+                </tr>
+                <tr>
+                    <td style="width: 25%;"><img id="sample_img_3" onclick="show_target_images('2');" src=""></td>
+                    <td style="width: 25%;"><img id="sample_img_4" onclick="show_target_images('3');" src=""></td>
+                </tr>
+            </tbody>
+          </table>
+          <br/>
+          <input type="file" id="fileInput1" style="display: none;" multiple>
+          <button id="loadImagesButton" class="btn btn-primary">의류 샘플 불러오기</button>
+          <br>
+          <input type="file" id="fileInput2" style="display: none;" multiple>
+          <span id="loadDisplayImagesButton">👕</span>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script>
+    const mainImage = document.getElementById("main_img");
+  
+    function show_target_images(imageNumber) {
+      // 기본 이미지 가리기
+      const mainImage = document.getElementById("main_img");
+      mainImage.style.display = "none";
+
+      const displayImages = [
+        document.getElementById("display_img_1"),
+        document.getElementById("display_img_2"),
+        document.getElementById("display_img_3"),
+        document.getElementById("display_img_4")
+      ];
+
+      for (let i = 0; i < displayImages.length; i++) {
+        if (i == imageNumber) {
+          displayImages[i].style.display = "inline-block";
+        }
+        else {
+          displayImages[i].style.display = "none";
+        }
+      }
+
+      displayImages[imageNumber].style.display = "inline-block";
+    }
+
+
+    // 샘플 이미지 불러오기
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("loadImagesButton").addEventListener("click", function () {
+        document.getElementById("fileInput1").click();
+      });
+
+      document.getElementById("loadDisplayImagesButton").addEventListener("click", function () {
+        document.getElementById("fileInput2").click();
+      });
+  
+      document.getElementById("fileInput1").addEventListener("change", function (event) {
+        const fileInput1 = event.target;
+        const imageElements = [
+          document.getElementById("sample_img_1"),
+          document.getElementById("sample_img_2"),
+          document.getElementById("sample_img_3"),
+          document.getElementById("sample_img_4")
+        ];
+  
+        for (let i = 0; i < imageElements.length; i++) {
+          const file = fileInput1.files[i];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              imageElements[i].src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            
+          } 
+          else {
+            // 파일이 선택되지 않은 경우 빈 이미지로 설정
+            imageElements[i].src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+          }
+        }
+      });
+
+      document.getElementById("fileInput2").addEventListener("change", function (event) {
+        const fileInput1 = event.target;
+        const imageElements = [
+          document.getElementById("display_img_1"),
+          document.getElementById("display_img_2"),
+          document.getElementById("display_img_3"),
+          document.getElementById("display_img_4")
+        ];
+  
+        for (let i = 0; i < imageElements.length; i++) {
+          const file = fileInput1.files[i];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              imageElements[i].src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            
+          } 
+          else {
+            // 파일이 선택되지 않은 경우 빈 이미지로 설정
+            imageElements[i].src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+          }
+        }
+      });
+    });
+
+
+    // 표시될 이미지 불러오기
+    document.addEventListener("DOMContentLoaded", function () {
+
+    document.getElementById("fileInput2").addEventListener("change", function (event) {
+      const fileInput2 = event.target;
+      const displayImages = [
+        document.getElementById("display_img_1"),
+        document.getElementById("display_img_2"),
+        document.getElementById("display_img_3"),
+        document.getElementById("display_img_4")
+      ];
+
+      for (let i = 0; i < displayImages.length; i++) {
+        const file = fileInput2.files[i];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            displayImages[i].src = e.target.result;
+            displayImages[i].style.display = "none";
+          };
+          reader.readAsDataURL(file);
+        } else {
+          // 파일이 선택되지 않은 경우 빈 이미지로 설정
+          displayImages[i].src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+          displayImages[i].style.display = "none";
+        }
+      }
+    });
+  });
+  </script>
+</body>
+</html>
