@@ -13,3 +13,15 @@
 - *Flask* (Back-end)
 - *SQLite3* (DB)
 - *YOLOv8* (AI Modeling)
+
+## 프로그램 실행 사진
+<table>
+    <tr>
+        <th>Project 1</th>
+        <th>Project 2</th>
+    </tr>
+    <tr>
+        <td><img src="./img/Project1.png" alt="Project 1"/></td>
+        <td><img src="./img/Project2.png" alt="Project 1"/></td>
+    </tr>
+</table>
